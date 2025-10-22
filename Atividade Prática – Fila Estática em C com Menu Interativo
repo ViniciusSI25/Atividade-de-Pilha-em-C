@@ -1,0 +1,132 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 10
+
+typedef struct fila {
+    int inicio;
+    int fim;
+    int vetor[MAX];
+} Fila;
+
+Fila inicializarFila() {
+    Fila q;
+    q.inicio = 0;
+    q.fim = 0;
+    return q;
+}
+
+int estahVazia(Fila q) { 
+    return q.inicio == q.fim;
+}
+
+int estahCheia(Fila q) {
+    return ((q.fim + 1) % MAX) == q.inicio;
+}
+
+void enfileirar(Fila *q, int valor, int *erro) {
+    if (estahCheia(*q)) {
+        *erro = 1;
+    } else {
+        q->vetor[q->fim] = valor;
+        q->fim++;
+        *erro = 0;
+    }
+}
+
+int desenfileirar(Fila *q, int *erro) {
+    if (estahVazia(*q)) {
+        *erro = 1;
+        return -1;
+    } else {
+        int valor = q->vetor[q->inicio];
+        q->inicio++;
+        *erro = 0;
+        return valor;
+    }
+}
+
+void mostraFila(Fila q) {
+    if (estahVazia(q)) {
+        printf("\nFila vazia.\n");
+        return;
+    }
+
+    int i = q.inicio;
+    printf("\nFila: ");
+    while (i != q.fim) {
+        printf("%d ", q.vetor[i]);
+        i++;
+    }
+    printf("\n");
+    printf("Total de elementos: %d\n", q.fim - q.inicio);
+}
+
+void encontrarElemento(Fila *q, int elemento) {
+    int count = 0;
+    int i = q->inicio;
+    while (i != q->fim) {
+        if (q->vetor[i] == elemento)
+            count++;
+        i++;
+    }
+    if (count > 0)
+        printf("O elemento %d aparece %d vez(es) na fila.\n", elemento, count);
+    else
+        printf("O elemento %d nao foi encontrado na fila.\n", elemento);
+}
+
+int main() {
+    Fila q = inicializarFila();
+    int opcao, valor, erro;
+
+    do {
+        printf("\n===== MENU DA FILA =====\n");
+        printf("1. Enfileirar elemento\n");
+        printf("2. Desenfileirar elemento\n");
+        printf("3. Mostrar conteudo da fila\n");
+        printf("4. Encontrar elemento na fila\n");
+        printf("0. Sair\n");
+        printf("=========================\n");
+        printf("Escolha uma opaoo: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                printf("Digite o valor para enfileirar: ");
+                scanf("%d", &valor);
+                enfileirar(&q, valor, &erro);
+                if (erro)
+                    printf("Fila cheia! Nao foi possivel enfileirar %d.\n", valor);
+                else
+                    printf("Elemento %d adicionado com sucesso!\n", valor);
+                break;
+
+            case 2:
+                valor = desenfileirar(&q, &erro);
+                if (erro)
+                    printf("Fila vazia! Nao existem elementos para desenfileirar.\n");
+                else
+                    printf("Desenfileirado: %d\n", valor);
+                break;
+
+            case 3:
+                mostraFila(q);
+                break;
+
+            case 4:
+                printf("Digite o valor a procurar: ");
+                scanf("%d", &valor);
+                encontrarElemento(&q, valor);
+                break;
+
+            case 0:
+                printf("Encerrando o programa...\n");
+                break;
+
+            default:
+                printf("Opcao invalida! Tente novamente.\n");
+        }
+
+    } while (opcao != 0);
+    return 0;
+}
