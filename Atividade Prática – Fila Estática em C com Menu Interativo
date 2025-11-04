@@ -80,14 +80,14 @@ int main() {
     int opcao, valor, erro;
 
     do {
-        printf("\n===== MENU DA FILA =====\n");
+        printf("\n----- MENU DA FILA -----\n");
         printf("1. Enfileirar elemento\n");
         printf("2. Desenfileirar elemento\n");
-        printf("3. Mostrar conteudo da fila\n");
+        printf("3. Mostrar conteúdo da fila\n");
         printf("4. Encontrar elemento na fila\n");
         printf("0. Sair\n");
         printf("=========================\n");
-        printf("Escolha uma opaoo: ");
+        printf("Escolha uma das opções: ");
         scanf("%d", &opcao);
 
         switch (opcao) {
@@ -96,7 +96,7 @@ int main() {
                 scanf("%d", &valor);
                 enfileirar(&q, valor, &erro);
                 if (erro)
-                    printf("Fila cheia! Nao foi possivel enfileirar %d.\n", valor);
+                    printf("Fila cheia! Não foi possível enfileirar %d.\n", valor);
                 else
                     printf("Elemento %d adicionado com sucesso!\n", valor);
                 break;
@@ -124,7 +124,7 @@ int main() {
                 break;
 
             default:
-                printf("Opcao invalida! Tente novamente.\n");
+                printf("Opção invalida! Tente novamente.\n");
         }
 
     } while (opcao != 0); 
